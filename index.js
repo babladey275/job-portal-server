@@ -82,10 +82,10 @@ async function run() {
       res.send(result);
     });
 
-    app.delete("/job-application/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await jobAppCollection.deleteOne(query);
+    app.get("/job-applications/jobs/:job_id", async (req, res) => {
+      const jobId = req.params.job_id;
+      const query = { job_id: jobId };
+      const result = await jobAppCollection.find(query).toArray();
       res.send(result);
     });
 
@@ -114,6 +114,13 @@ async function run() {
 
       const updateResult = await jobsCollection.updateOne(filter, updatedDoc);
 
+      res.send(result);
+    });
+
+    app.delete("/job-application/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await jobAppCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
